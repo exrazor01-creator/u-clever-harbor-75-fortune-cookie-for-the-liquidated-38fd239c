@@ -87,8 +87,11 @@ def _reject_forbidden(text):
 
 
 def _reject_too_many_words(text):
-    if len(text.split()) > MAX_WORDS:
-        raise ValueError("entry runs past its word limit")
+    words = len(text.split())
+    if words > MAX_WORDS:
+        raise ValueError(
+            f"entry runs past its word limit ({words} words, max {MAX_WORDS})"
+        )
 
 
 def _validate(text):
@@ -99,7 +102,9 @@ def _validate(text):
     _reject_non_ascii(text)
     _reject_control_chars(text)
     if len(text) > LIMIT:
-        raise ValueError("entry runs past its character limit")
+        raise ValueError(
+            f"entry runs past its character limit ({len(text)} > {LIMIT})"
+        )
     _reject_too_many_words(text)
     _reject_padding(text)
     _reject_forbidden(text)
